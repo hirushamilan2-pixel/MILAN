@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animated Navbar</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* HERO SECTION */
+.hero {
+    height: 100vh;
+    background: url('https://images.pexels.com/photos/12001673/pexels-photo-12001673.jpeg') no-repeat center/cover;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+}
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    display: flex;
+    gap: 40px;
+    padding: 15px 30px;
+
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.1);
+    border-radius: 30px;
+
+    z-index: 1000;
+
+    animation: slideDown 1s ease forwards;
+}
+
+/* NAV LINKS */
+.navbar a {
+    position: relative;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.3s;
+    padding: 5px 0;
+}
+
+/* 🔥 UNDERLINE ANIMATION */
+.navbar a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0%;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+}
+
+/* hover underline */
+.navbar a:hover::after {
+    width: 100%;
+}
+
+/* active underline */
+.navbar a.active::after {
+    width: 100%;
+}
+
+/* SLIDE DOWN ANIMATION */
+@keyframes slideDown {
+    from {
+        top: -80px;
+        opacity: 0;
+    }
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+/* CONTENT */
+.content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+}
+
+/* SCROLL ANIMATION */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.8s;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* SECTION */
+.section {
+    height: 100vh;
+    background: #111;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <a href="#" class="active">Home</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Gallery</a>
+    <a href="#">Contact</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="content fade-up">
+        <h1>Welcome</h1>
+        <p>Beautiful Animated Navbar</p>
+    </div>
+</div>
+
+<!-- EXTRA SECTION -->
+<div class="section fade-up">
+    Scroll Down Animation 👇
+</div>
+
+<script>
+// SCROLL ANIMATION
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+        }
+    });
+});
+
+document.querySelectorAll(".fade-up").forEach((el) => {
+    observer.observe(el);
+});
+
+// ACTIVE LINK SWITCH
+const links = document.querySelectorAll(".navbar a");
+
+links.forEach(link => {
+    link.addEventListener("click", function () {
+        links.forEach(l => l.classList.remove("active"));
+        this.classList.add("active");
+    });
+});
+</script>
+
+</body>
+</html>
